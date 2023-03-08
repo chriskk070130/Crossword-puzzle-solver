@@ -68,9 +68,9 @@ int check_solution(FILE* dictionary, char** crossw, int dimensions, Slot* slots_
 				}	
 			}
 		}
-        if(index == n_myslots){ //Το check-mode έχει τελειώσει
-            stop = 1;
-        }
+        	if(index == n_myslots){ //Το check-mode έχει τελειώσει
+        	    stop = 1;
+        	}
 	}
 	if(!stop){ 
 		printf("Not enough words\n");
