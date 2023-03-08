@@ -4,7 +4,7 @@
 #include "checks.h"
 
 int check_solution(FILE* dictionary, char** crossw, int dimensions, Slot* slots_table, int n_myslots){ 
-    Slot next;    //Κάθε φορά συμπληρώνω ένα-ένα slot με την σειρά αφού για να βρεθούν σαρώθηκαν πρώτα οι γραμμές και μετά οι στήλες.
+    	Slot next;    //Κάθε φορά συμπληρώνω ένα-ένα slot με την σειρά αφού για να βρεθούν σαρώθηκαν πρώτα οι γραμμές και μετά οι στήλες.
 	int found, letter, i, j, stop=0, index=0;
 	char *word, *str;
 	str = malloc(33 * sizeof(char));
@@ -33,7 +33,7 @@ int check_solution(FILE* dictionary, char** crossw, int dimensions, Slot* slots_
 			return 0;
 		}
 		next = slots_table[index]; 
-        index++;
+        	index++;
 		if(next.length != strlen(str)){				   
 			printf("Word \"%s\" cannot be placed\n" , str);
 			free(word);
