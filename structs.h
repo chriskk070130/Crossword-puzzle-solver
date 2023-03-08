@@ -15,7 +15,7 @@ typedef struct{
 	int j;
 	int row_col; //1 αν το slot ειναι οριζοντιο, αλλιως 0 αν ειναι καθετο
 	int length;
-    int filled; 
+    	int filled; 
 	int index;  
 	int remaining_words; 
 	int conflicts[33];
