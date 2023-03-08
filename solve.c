@@ -4,16 +4,16 @@
 #include "solve.h"
 
 int solve(char** table, int n, char*** my_dict, int* lengths, int**** bdict, Slot* myslots, int n_myslots){ 
-    Listptr mystack=NULL, temp_st;  //mystack στοίβα αποθήκευσης κάθε slot που συμπληρώνεται στο grid
+    	Listptr mystack=NULL, temp_st;  //mystack στοίβα αποθήκευσης κάθε slot που συμπληρώνεται στο grid
 	fc_Listptr temp_fc;
-    int next_slot_ind, domain_word, j, last_slot_ind, first_slot_ind, backtracking, count=0; 
+    	int next_slot_ind, domain_word, j, last_slot_ind, first_slot_ind, backtracking, count=0; 
 	while(check_if_completed(myslots, n_myslots) != 1){
 		backtracking = 0;
 		next_slot_ind = find_next_slot(myslots , n_myslots);
-        if(count == 0){
-            first_slot_ind = next_slot_ind;
-        }
-        count++;
+        	if(count == 0){
+        	    first_slot_ind = next_slot_ind;
+        	}
+        	count++;
 		for(domain_word = myslots[next_slot_ind].index; domain_word < lengths[myslots[next_slot_ind].length]; domain_word++){
 			if(myslots[next_slot_ind].current_domain[domain_word] == 1){         //Ελεγχος κάθε συμβατής λέξης του domain του slot
 				if(slot_is_okey(myslots[next_slot_ind] , domain_word , myslots , n_myslots , lengths, bdict , my_dict)){
@@ -30,12 +30,12 @@ int solve(char** table, int n, char*** my_dict, int* lengths, int**** bdict, Slo
 		}
 		if(domain_word == lengths[myslots[next_slot_ind].length]){  //Αν φτάσουμε στο τέλος του domain και δεν βρούμε καμία έγκυρη λέξη
 			backtracking = 1;                                       //αρχίζει η διαδικασία της οπισθοδρόμισης
-            if(count == 1){ 
-                return 0;  //Δεν έχουμε λύση
-            }
+            		if(count == 1){ 
+                		return 0;  //Δεν έχουμε λύση
+            		}
 		}
 		while(backtracking == 1){ 
-            backtracking = 0;
+            		backtracking = 0;
 			last_slot_ind = mystack->slot_ind;
 			temp_st = mystack;
 			mystack = mystack->next;
@@ -69,16 +69,16 @@ int solve(char** table, int n, char*** my_dict, int* lengths, int**** bdict, Slo
 			if(domain_word == lengths[myslots[last_slot_ind].length]){ //Αν δεν βρέθηκε έγκυρη λέξη η διαδικασία της οπισθδρόμισης επαναλαμβάνεται 
 				myslots[last_slot_ind].index = 0;                     
 				backtracking = 1;
-                if(last_slot_ind == first_slot_ind){
-                    return 0; //Εχουμε κάνει τόσες οπισθοδρομίσεις και τελικά φτάνουμε στο πρώτο slot, εφόσον δεν έχουμε βρει 
-                }             //άλλη συμβατή τιμή για αυτό, τότε το σταυρόλεξο μας δεν έχει λύση για το δοσμένο λεξικό
+                		if(last_slot_ind == first_slot_ind){
+                		    return 0; //Εχουμε κάνει τόσες οπισθοδρομίσεις και τελικά φτάνουμε στο πρώτο slot, εφόσον δεν έχουμε βρει 
+                		}             //άλλη συμβατή τιμή για αυτό, τότε το σταυρόλεξο μας δεν έχει λύση για το δοσμένο λεξικό
 			}
 		}
 	}
-    while(mystack != NULL){ //Αποδέσμευσης της μνήμης που έχει δεσμευτεί απο την στοιίβα ενεργειών
-        temp_st = mystack;
-        mystack = mystack->next;
-        free(temp_st);
-    }
+    	while(mystack != NULL){ //Αποδέσμευσης της μνήμης που έχει δεσμευτεί απο την στοιίβα ενεργειών
+        	temp_st = mystack;
+        	mystack = mystack->next;
+        	free(temp_st);
+    	}
     return 1;
 }
