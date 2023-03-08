@@ -9,10 +9,10 @@ void print_board(char** table, int n);
 
 int main(int argc, char* argv[]){ 
 	int i, j, dimensions, a, b, ind_dict, length, row, col, first, ind, max_slots, position, ch;
-    int check=0, dict=0, draw=0, count_slots=0, num_of_words[33], save_words[33], ****bdict, *needed_lengths; 
+    	int check=0, dict=0, draw=0, count_slots=0, num_of_words[33], save_words[33], ****bdict, *needed_lengths; 
 	char ***words, **crossw, *str; 
-    Slot *myslots;
-    fc_Listptr temp;
+    	Slot *myslots;
+    	fc_Listptr temp;
 	FILE *crossword_file=NULL, *dictionary_file=NULL;
 	for(i = 1; i < argc; i++){
 		if(!strcmp(argv[i] , "-check")){
@@ -33,14 +33,14 @@ int main(int argc, char* argv[]){
 	else{ //Δαμόρωση του grid
 		fscanf(crossword_file , "%d" , &dimensions);
 		if((crossw = malloc(dimensions * sizeof(char*))) == NULL){ 
-            fprintf(stderr , "Error allocating memory\n");
-            exit(EXIT_FAILURE);
-        }
+            		fprintf(stderr , "Error allocating memory\n");
+            		exit(EXIT_FAILURE);
+        	}
 		for(i = 0; i < dimensions; i++){
 			if((crossw[i] = malloc(dimensions * sizeof(char))) == NULL){
-                fprintf(stderr , "Error allocating memory\n");
-                exit(EXIT_FAILURE);
-            }
+                		fprintf(stderr , "Error allocating memory\n");
+                		exit(EXIT_FAILURE);
+            		}
 			for(j = 0; j < dimensions; j++){
 				crossw[i][j] = ' ';
 			}
@@ -51,99 +51,99 @@ int main(int argc, char* argv[]){
 	}
 	if((needed_lengths = calloc(33 , sizeof(int))) == NULL){ //Πίνακας όπου στην θέση i έχει 1 αν το μήκος i χρειάζεται για το σταυρόλεξο αλλιώς 0
 		fprintf(stderr, "Error allocating mamory\n");
-        exit(EXIT_FAILURE);
+        	exit(EXIT_FAILURE);
 	}
 	if(dict){
 		if((dictionary_file = fopen(argv[ind_dict + 1] , "r")) == NULL){
-            fprintf(stderr , "Could not open file\n");
-            exit(EXIT_FAILURE);
-        }
+            		fprintf(stderr , "Could not open file\n");
+            		exit(EXIT_FAILURE);
+        	}
 	}
 	else{
 		if((dictionary_file = fopen("Words.txt" , "r")) == NULL){
-            fprintf(stderr , "Could not open file\n");
-            exit(EXIT_FAILURE);
-        }
+            		fprintf(stderr , "Could not open file\n");
+            		exit(EXIT_FAILURE);
+        	}
 	}
-    max_slots = dimensions*dimensions/2 + 1;
+    	max_slots = dimensions*dimensions/2 + 1;
 	if((myslots = malloc(max_slots * sizeof(Slot))) == NULL){
-        fprintf(stderr , "Error allocating memory\n");
-        exit(EXIT_FAILURE);
-    }
-    for(row = 0; row < dimensions; row++){ //Ευρεση των slot και αρχικοποίηση των βασικών μελών τους
-        col = 0;                           //που αρκούν για την υλοποίηση της -check λειτουργίας
-        while(col < dimensions  - 1){
-            length = 1;
+        	fprintf(stderr , "Error allocating memory\n");
+        	exit(EXIT_FAILURE);
+    	}
+    	for(row = 0; row < dimensions; row++){ //Ευρεση των slot και αρχικοποίηση των βασικών μελών τους
+        	col = 0;                           //που αρκούν για την υλοποίηση της -check λειτουργίας
+        	while(col < dimensions  - 1){
+			length = 1;
 			first = col;
-            while(crossw[row][col] == ' ' && crossw[row][col+1] == ' '){
-                length++;
-                col++;
-                if(col > dimensions - 1){
-          		    break;
-                }
-            }
-            if(length >= 2){
+            		while(crossw[row][col] == ' ' && crossw[row][col+1] == ' '){
+                		length++;
+                		col++;
+                		if(col > dimensions - 1){
+          		    		break;
+                		}
+            		}
+            		if(length >= 2){
 				if(needed_lengths[length] == 0)
-                	needed_lengths[length] = 1;
+                			needed_lengths[length] = 1;
 				ind = count_slots++;
 				myslots[ind].i = row;
 				myslots[ind].j = first;
 				myslots[ind].length = length;
 				myslots[ind].row_col = 1;
-            }
-            if(col >= dimensions - 1){
-                continue;
-            }
-            col++;
-        }
-    }
-    for(col = 0; col < dimensions; col++){
-        row = 0;
-        while(row < dimensions  - 1){
-            length = 1;
+            		}
+            		if(col >= dimensions - 1){
+                		continue;
+            		}
+            		col++;
+        	}
+    	}
+    	for(col = 0; col < dimensions; col++){
+        	row = 0;
+        	while(row < dimensions  - 1){
+			length = 1;
 			first = row;
-            while(crossw[row][col] == ' ' && crossw[row+1][col] == ' '){
-                length++;
-                row++;
-                if(row >= dimensions - 1){
-                    break;
-                }
-            }
-            if(length >= 2){
+            		while(crossw[row][col] == ' ' && crossw[row+1][col] == ' '){
+                		length++;
+                		row++;
+                		if(row >= dimensions - 1){
+                			break;
+                		}
+            		}
+            		if(length >= 2){
 				if(needed_lengths[length] == 0)
-                	needed_lengths[length]++;
+                			needed_lengths[length]++;
 				ind = count_slots++;
 				myslots[ind].i = first;
 				myslots[ind].j = col;
 				myslots[ind].length = length;
 				myslots[ind].row_col = 0;
-            }
-            if(row >= dimensions - 1){
-                continue;
-            }
-            row++;
-        }
-    }
+            		}
+            		if(row >= dimensions - 1){
+                		continue;
+            		}
+            		row++;
+        	}
+    	}
 	if((myslots = realloc(myslots , count_slots * sizeof(Slot))) == NULL){
-        fprintf(stderr, "Error allocating memory");
-        exit(EXIT_FAILURE);
-    }    
-    if(check){ //check mode
+        	fprintf(stderr, "Error allocating memory");
+        	exit(EXIT_FAILURE);
+        }    
+    	if(check){ //check mode
 		int check_result = check_solution(dictionary_file, crossw, dimensions, myslots, count_slots);
-        free(myslots);
-        if(check_result == -1){ //Αποτυχία δέσμευσης μνήμης μέσα στην συνάρτηση check 
+        	free(myslots);
+        	if(check_result == -1){ //Αποτυχία δέσμευσης μνήμης μέσα στην συνάρτηση check 
 			fprintf(stderr , "Error allocating memory\n");
 			exit(EXIT_FAILURE);
 		}
-        else if(check_result == 1 && draw == 1){ //το check-mode τερμάτισε επιτυχώς 						
-             print_board(crossw, dimensions);
-        }
-    }
+        	else if(check_result == 1 && draw == 1){ //το check-mode τερμάτισε επιτυχώς 						
+             		print_board(crossw, dimensions);
+        	}
+    	}
 	else{ //solve crossword puzzle
 		if((bdict = malloc(33 * sizeof(int***))) == NULL){ //Βοηθητικός πίνακας για την γρήγορη εύρεση του domain κάθε slot. 
-            fprintf(stderr, "Error allocating memory\n");   //Η δομή του είναι η εξής: πλήθος γραμμάτων->θέση γράμματος->γράμμα->πίνακας από 0 και 1
-            exit(EXIT_FAILURE);								//μεγέθους όσο το πλήθος των λέξεων του μήκους <πλήθος γραμμάτων>, 								
-        }													//1 αν η αντίστοιχη λέξη ανήκει στο domain αλλιώς 0. Λειτουργεί παράλληλα με τον πίνακα words.
+            		fprintf(stderr, "Error allocating memory\n");   //Η δομή του είναι η εξής: πλήθος γραμμάτων->θέση γράμματος->γράμμα->πίνακας από 0 και 1
+            		exit(EXIT_FAILURE);								//μεγέθους όσο το πλήθος των λέξεων του μήκους <πλήθος γραμμάτων>, 								
+        	}													//1 αν η αντίστοιχη λέξη ανήκει στο domain αλλιώς 0. Λειτουργεί παράλληλα με τον πίνακα words.
 		words = malloc(33 * sizeof(char**)); //Βασικός πίνακας αποθήκευσης συμβολοσειρών με κριτήριο το μέγεθος τους
 		str = malloc(33 * sizeof(char)); 
 		if(words == NULL || str == NULL){
@@ -176,22 +176,22 @@ int main(int argc, char* argv[]){
 				}
 				for(j = 0; j < i; j++){
 					if((bdict[i][j] = malloc(26 * sizeof(int*))) == NULL){
-                        fprintf(stderr , "Error allocating memory\n");
-					    exit(EXIT_FAILURE);
-                    }
+                        			fprintf(stderr , "Error allocating memory\n");
+					    	exit(EXIT_FAILURE);
+                    			}
 					for(int k = 0; k < 26; k++){ 
 						bdict[i][j][k] = calloc(num_of_words[i] , sizeof(int)); //Αρχικοποίηση με 0
-                        if(bdict[i][j][k] == NULL){
-                            fprintf(stderr , "Error allocating memory\n");
-					        exit(EXIT_FAILURE);
-                        }
+                        			if(bdict[i][j][k] == NULL){
+                            				fprintf(stderr , "Error allocating memory\n");
+					        	exit(EXIT_FAILURE);
+                        			}
 					}
 				} 
 				for(j = 0; j < num_of_words[i]; j++){ 
 					if((words[i][j] = malloc((i+1) * sizeof(char))) == NULL){
-                        fprintf(stderr, "Error allocating memory\n");
-                        exit(EXIT_FAILURE);
-                    }
+                        			fprintf(stderr, "Error allocating memory\n");
+						exit(EXIT_FAILURE);
+                    			}
 				}
 			}
 		}
@@ -209,10 +209,10 @@ int main(int argc, char* argv[]){
 		}
 		for(i = 0; i < count_slots; i++){ 
 			myslots[i].current_domain = malloc(num_of_words[myslots[i].length] * sizeof(int)); 
-            if(myslots[i].current_domain == NULL){
-                fprintf(stderr, "Error allocating memory\n");
-                exit(EXIT_FAILURE);
-            }
+            		if(myslots[i].current_domain == NULL){
+                		fprintf(stderr, "Error allocating memory\n");
+               			exit(EXIT_FAILURE);
+            		}
 			for(j = 0; j < num_of_words[myslots[i].length]; j++){
 				myslots[i].current_domain[j] = 1; 
 			}
@@ -226,7 +226,7 @@ int main(int argc, char* argv[]){
 		}
 		find_neighbors(crossw, myslots, count_slots); 
 		int solve_result, return_value = 0;
-        solve_result = solve(crossw , dimensions , words , num_of_words, bdict, myslots, count_slots);
+        	solve_result = solve(crossw , dimensions , words , num_of_words, bdict, myslots, count_slots);
 		if(solve_result == 0){
 			printf("Cannot find solution\n");
 			return_value = 1;
@@ -257,7 +257,7 @@ int main(int argc, char* argv[]){
 			}
 			print_board(crossw, dimensions);
 		}
-        //Αποδέσμευση της μνημης
+        	//Αποδέσμευση της μνημης
 		for(i = 0; i < 33; i++){
 			for(j = 0; j < num_of_words[i]; j++){
 				free(words[i][j]);
@@ -265,41 +265,41 @@ int main(int argc, char* argv[]){
 			free(words[i]);
 		}
 		free(words);
-        for(i = 0; i < 33; i++){
-            if(needed_lengths[i]){
-                for(j = 0; j < i; j++){
-                    for(int k = 0; k < 26; k++){
-                        free(bdict[i][j][k]);
-                    }
-                    free(bdict[i][j]);
-                }
-                free(bdict[i]);
-            }
-        }
-        free(bdict);
-        free(needed_lengths);
-        for(int sl_ind = 0; sl_ind < count_slots; sl_ind++){
-            free(myslots[sl_ind].current_domain);
-            while(myslots[sl_ind].prev_domains != NULL){
-                temp = myslots[sl_ind].prev_domains;
-                myslots[sl_ind].prev_domains = myslots[sl_ind].prev_domains->next;
-                free(temp->domain);
-                free(temp);
-            }
-            free(myslots[sl_ind].neighbors);
-            for(int slot_index = 0; slot_index < count_slots; slot_index++){
-                free(myslots[sl_ind].neighbors_information[slot_index]);
-            }
-            free(myslots[sl_ind].neighbors_information);
-        }
-        free(myslots);
-        free(str);
+        	for(i = 0; i < 33; i++){
+            		if(needed_lengths[i]){
+                		for(j = 0; j < i; j++){
+                    			for(int k = 0; k < 26; k++){
+                        			free(bdict[i][j][k]);
+                    			}
+                    			free(bdict[i][j]);
+                		}
+                		free(bdict[i]);
+            		}
+        	}
+        	free(bdict);
+        	free(needed_lengths);
+        	for(int sl_ind = 0; sl_ind < count_slots; sl_ind++){
+            		free(myslots[sl_ind].current_domain);
+            		while(myslots[sl_ind].prev_domains != NULL){
+                		temp = myslots[sl_ind].prev_domains;
+                		myslots[sl_ind].prev_domains = myslots[sl_ind].prev_domains->next;
+                		free(temp->domain);
+                		free(temp);
+            		}
+            		free(myslots[sl_ind].neighbors);
+            		for(int slot_index = 0; slot_index < count_slots; slot_index++){
+                		free(myslots[sl_ind].neighbors_information[slot_index]);
+            		}
+            		free(myslots[sl_ind].neighbors_information);
+        	}
+        	free(myslots);
+        	free(str);
 		if(return_value == 1){
-            for(i = 0; i < dimensions; i++)
-		        free(crossw[i]);
-	        free(crossw);
+        		for(i = 0; i < dimensions; i++)
+		        	free(crossw[i]);
+	        	free(crossw);
 			exit(EXIT_FAILURE);
-        }
+        	}
 	}
 	for(i = 0; i < dimensions; i++)
 		free(crossw[i]);
