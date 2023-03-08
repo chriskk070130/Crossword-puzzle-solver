@@ -47,38 +47,38 @@ void find_neighbors(char** table, Slot* slots_table, int n_myslots){
 		}														  
 		letter = 0;
 		if(is_horizontal){
-            for(pos = col; pos <= col+length-1; pos++){ 
+            		for(pos = col; pos <= col+length-1; pos++){ 
 				search_row = row;
-        	    while(search_row >= 0 && table[search_row][pos] != '#'){
-                    search_row--;
-                }
-                start = search_row + 1; 
-                for(int k = 0; k < n_myslots; k++){
-                    if(slots_table[k].row_col == 0 && slots_table[k].i == start && slots_table[k].j == pos){
-                        slots_table[i].neighbors[k] = 1;					
+        	    		while(search_row >= 0 && table[search_row][pos] != '#'){
+                    			search_row--;
+                		}
+                		start = search_row + 1; 
+                		for(int k = 0; k < n_myslots; k++){
+                    			if(slots_table[k].row_col == 0 && slots_table[k].i == start && slots_table[k].j == pos){
+                        			slots_table[i].neighbors[k] = 1;					
 						slots_table[i].neighbors_information[k][0] = letter; 
 						slots_table[i].neighbors_information[k][1] = row - start; 
 						break;
-                    }
-                }
+                    			}
+                		}
 				letter++;
 			}
 		}
 		else{
-            for(pos = row; pos <= row+length-1; pos++){
+			for(pos = row; pos <= row+length-1; pos++){
 				search_col = col;
-                while(search_col >= 0 && table[pos][search_col] != '#'){
-                    search_col--;
-                }
-                start = search_col + 1; 
-                for(int k = 0; k < n_myslots; k++){
-                    if(slots_table[k].row_col == 1 && slots_table[k].i == pos && slots_table[k].j == start){
-                        slots_table[i].neighbors[k] = 1;
+                		while(search_col >= 0 && table[pos][search_col] != '#'){
+                    			search_col--;
+                		}
+                		start = search_col + 1; 
+                		for(int k = 0; k < n_myslots; k++){
+                    			if(slots_table[k].row_col == 1 && slots_table[k].i == pos && slots_table[k].j == start){
+                        			slots_table[i].neighbors[k] = 1;
 						slots_table[i].neighbors_information[k][0] = letter; 
 						slots_table[i].neighbors_information[k][1] = col - start; 
 						break;
-                    }
-                }
+                    			}
+                		}
 				letter++;
 			}
 		}
