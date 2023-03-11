@@ -7,5 +7,5 @@ $(EXEC): $(OBJS)
 	gcc $(OBJS) -o $(EXEC)
 
 clean:
-	@echo "Removing everything but the sourse files"
+	@echo "Removing everything but the source files"
 	rm -f $(EXEC) $(OBJS)
