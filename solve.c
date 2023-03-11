@@ -75,7 +75,7 @@ int solve(char** table, int n, char*** my_dict, int* lengths, int**** bdict, Slo
 			}
 		}
 	}
-    while(mystack != NULL){ //Αποδέσμευσης της μνήμης που έχει δεσμευτεί απο την στοιίβα ενεργειών
+    while(mystack != NULL){ //Αποδέσμευσης της μνήμης που έχει δεσμευτεί απο την στοίβα ενεργειών
         temp_st = mystack;
         mystack = mystack->next;
         free(temp_st);
