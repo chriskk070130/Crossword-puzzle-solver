@@ -5,8 +5,7 @@
 
 int solve(char** table, int n, char*** my_dict, int* lengths, int**** bdict, Slot* myslots, int n_myslots){ 
     Listptr mystack=NULL, temp_st;  //mystack στοίβα αποθήκευσης κάθε slot που συμπληρώνεται στο grid
-	fc_Listptr temp_fc;
-    int next_slot_ind, domain_word, j, last_slot_ind, first_slot_ind, backtracking, count=0; 
+    int next_slot_ind, domain_word, first_slot_ind, last_slot_ind, backtracking, count=0; 
 	while(check_if_completed(myslots, n_myslots) != 1){
 		backtracking = 0;
 		next_slot_ind = find_next_slot(myslots , n_myslots);
@@ -15,12 +14,12 @@ int solve(char** table, int n, char*** my_dict, int* lengths, int**** bdict, Slo
         }
         count++;
 		for(domain_word = myslots[next_slot_ind].index; domain_word < lengths[myslots[next_slot_ind].length]; domain_word++){
-			if(myslots[next_slot_ind].current_domain[domain_word] == 1){         //Ελεγχος κάθε συμβατής λέξης του domain του slot
+			if(myslots[next_slot_ind].current_domain[domain_word] == 1){           //Ελεγχος κάθε συμβατής λέξης του domain του slot
 				if(slot_is_okey(myslots[next_slot_ind] , domain_word , myslots , n_myslots , lengths, bdict , my_dict)){
-					find_conflicts(next_slot_ind, myslots, n_myslots);             //Αν η λέξη με index domain_word είναι έγκυρη τότε βρίσκουμε τα conflicts του slot 
-					myslots[next_slot_ind].filled = 1;
+					find_conflicts(next_slot_ind, myslots, n_myslots);             //Αν η λέξη με index domain_word είναι έγκυρη τότε  
+					myslots[next_slot_ind].filled = 1;                             //βρίσκουμε τα conflicts του slot
 					myslots[next_slot_ind].index = domain_word;
-					temp_st = mystack;       //Eισαγωγή νέου κόμβου στην αρχή της λίστας (στην στοίβα)
+					temp_st = mystack;        //Eισαγωγή νέου κόμβου στην αρχή της λίστας (στην στοίβα)
 					mystack = malloc(sizeof(struct listnode));
 					mystack->slot_ind = next_slot_ind;
 					mystack->next = temp_st;
@@ -40,13 +39,13 @@ int solve(char** table, int n, char*** my_dict, int* lengths, int**** bdict, Slo
 			temp_st = mystack;
 			mystack = mystack->next;
 			free(temp_st); 
-			for(int sl_ind = 0; sl_ind < n_myslots; sl_ind++){ //Παίρνω το index του τελευταίου slot που τοποθετήθηκε στο grid και επαναφέρω τα domains των slot που άλλαξα
-				if(myslots[last_slot_ind].neighbors[sl_ind] == 1 && myslots[sl_ind].filled == 0){  //για αυτό
-					for(j = 0; j < lengths[myslots[sl_ind].length]; j++){
+			for(int sl_ind = 0; sl_ind < n_myslots; sl_ind++){                                     //Παίρνω το index του τελευταίου slot που τοποθετήθηκε στο grid 
+				if(myslots[last_slot_ind].neighbors[sl_ind] == 1 && myslots[sl_ind].filled == 0){  //και επαναφέρω τα domains των slot που άλλαξα για αυτό
+					for(int j = 0; j < lengths[myslots[sl_ind].length]; j++){
 						myslots[sl_ind].current_domain[j] = myslots[sl_ind].prev_domains->domain[j];
 					}
 					myslots[sl_ind].remaining_words = myslots[sl_ind].prev_domains->remaining_values;
-					temp_fc = myslots[sl_ind].prev_domains;
+					fc_Listptr temp_fc = myslots[sl_ind].prev_domains;
 					myslots[sl_ind].prev_domains = myslots[sl_ind].prev_domains->next;
 					free(temp_fc->domain);
 					free(temp_fc);
@@ -66,16 +65,16 @@ int solve(char** table, int n, char*** my_dict, int* lengths, int**** bdict, Slo
 					}
 				}
 			}	
-			if(domain_word == lengths[myslots[last_slot_ind].length]){ //Αν δεν βρέθηκε έγκυρη λέξη η διαδικασία της οπισθδρόμισης επαναλαμβάνεται 
+			if(domain_word == lengths[myslots[last_slot_ind].length]){  //Αν δεν βρέθηκε έγκυρη λέξη η διαδικασία της οπισθδρόμισης επαναλαμβάνεται 
 				myslots[last_slot_ind].index = 0;                     
 				backtracking = 1;
                 if(last_slot_ind == first_slot_ind){
-                    return 0; //Εχουμε κάνει τόσες οπισθοδρομίσεις και τελικά φτάνουμε στο πρώτο slot, εφόσον δεν έχουμε βρει 
-                }             //άλλη συμβατή τιμή για αυτό, τότε το σταυρόλεξο μας δεν έχει λύση για το δοσμένο λεξικό
+                    return 0;  //Εχουμε κάνει τόσες οπισθοδρομίσεις και τελικά φτάνουμε στο πρώτο slot, εφόσον δεν έχουμε βρει 
+                }              //άλλη συμβατή τιμή για αυτό, τότε το σταυρόλεξο μας δεν έχει λύση για το δοσμένο λεξικό
 			}
 		}
 	}
-    while(mystack != NULL){ //Αποδέσμευσης της μνήμης που έχει δεσμευτεί απο την στοίβα ενεργειών
+    while(mystack != NULL){  //Αποδέσμευσης της μνήμης που έχει δεσμευτεί απο την στοίβα ενεργειών
         temp_st = mystack;
         mystack = mystack->next;
         free(temp_st);

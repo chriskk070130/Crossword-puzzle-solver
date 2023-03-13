@@ -1,7 +1,5 @@
 #ifndef STRUCTS_H
 #define STRUCTS_H
-typedef struct fc_listnode *fc_Listptr;
-
 typedef struct fc_listnode* fc_Listptr;
 
 struct fc_listnode{ 
@@ -13,9 +11,9 @@ struct fc_listnode{
 typedef struct{ 
 	int i;
 	int j;
-	int row_col; //1 αν το slot ειναι οριζοντιο, αλλιως 0 αν ειναι καθετο
+	int row_col;  //1 αν το slot είναι οριζόντιο, αλλιώς 0 αν είναι κάθετο
 	int length;
-    	int filled; 
+    int filled; 
 	int index;  
 	int remaining_words; 
 	int conflicts[33];

@@ -4,11 +4,10 @@
 #include "checks.h"
 
 int check_solution(FILE* dictionary, char** crossw, int dimensions, Slot* slots_table, int n_myslots){ 
-    Slot next;    //Κάθε φορά συμπληρώνω ένα-ένα slot με την σειρά αφού για να βρεθούν σαρώθηκαν πρώτα οι γραμμές και μετά οι στήλες.
-	int found, letter, i, j, stop=0, index=0;
-	char *word, *str;
-	str = malloc(33 * sizeof(char));
-	word = malloc(33 * sizeof(char));
+    Slot next;  //Κάθε φορά συμπληρώνω ένα-ένα slot με την σειρά αφού για να βρεθούν σαρώθηκαν πρώτα οι γραμμές και μετά οι στήλες.
+	int found, stop=0, index=0;
+	char* str = malloc(33 * sizeof(char));
+	char* word = malloc(33 * sizeof(char));
 	if(str == NULL || word == NULL)
 		return -1;
 	while(fgets(str , 33 , stdin) != NULL){
@@ -41,16 +40,16 @@ int check_solution(FILE* dictionary, char** crossw, int dimensions, Slot* slots_
 			return 0;
 		}
 		else{
-			i = next.i;
-			j = next.j;
+			int i = next.i;
+			int j = next.j;
 			if(next.row_col == 1){ 
-				for(letter = 0; letter < strlen(str); letter++){ //Στις γραμμές δεν υπάρχουν conflicts αφού αυτές συμπληρώνονται πρώτες
+				for(int letter = 0; letter < strlen(str); letter++){  //Στις γραμμές δεν υπάρχουν conflicts αφού αυτές συμπληρώνονται πρώτες
 					crossw[i][j] = str[letter];
 					j++;
 				}
 			}
 			else{ 
-				for(letter = 0; letter < strlen(str); letter++){
+				for(int letter = 0; letter < strlen(str); letter++){
 					if(crossw[i][j] == ' '){        
 						crossw[i][j] = str[letter];
 						i++;
@@ -68,7 +67,7 @@ int check_solution(FILE* dictionary, char** crossw, int dimensions, Slot* slots_
 				}	
 			}
 		}
-        if(index == n_myslots){ //Το check-mode έχει τελειώσει
+        if(index == n_myslots){  //Το check-mode έχει τελειώσει
             stop = 1;
         }
 	}
